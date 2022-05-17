@@ -23,6 +23,7 @@ const Genres = ({
   useEffect(() => {
     fetchGenres();
     return () => setGenres([]); //unmount Genres component.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onGenreAdd = (genre) => {
