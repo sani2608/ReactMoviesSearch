@@ -21,24 +21,24 @@ const Search = () => {
   const [type, setType] = useState(0);
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
-  const [content, setContent] = useState();
-  const [numberOfPages, setNumberOfPages] = useState();
-  // https://api.themoviedb.org/3/search/movie?api_key=&language=en-US&language=en-US&page=1&include_adult=false
+  const [content, setContent] = useState([]);
+  const [numberOfPages, setNumberOfPages] = useState(1);
+  
   const fetchSearch = async () => {
+    if (searchText === "") return;
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/search/${
-        type ? "tv" : "movie"
+      `https://api.themoviedb.org/3/search/${type ? "tv" : "movie"
       }?api_key=${API_KEY}&page=${page}&language=en-US&query=${searchText}`
     );
 
     setContent(data.results);
+    setNumberOfPages(data.total_pages);
+
   };
-  //TODO: fix search
+
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchSearch();
-    return () => {
-      setSearchText("");
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type, page]);
 
@@ -70,7 +70,6 @@ const Search = () => {
           indicatorColor="primary"
           textColor="primary"
           onChange={(event, newValue) => {
-            console.log(newValue);
             setType(newValue);
             setPage(1);
           }}
@@ -82,7 +81,7 @@ const Search = () => {
             label="Search TV Series"
           />
         </Tabs>
-      </ThemeProvider>
+      </ThemeProvider >
       <div className="movies">
         {content &&
           content.map((item) => (
@@ -92,22 +91,25 @@ const Search = () => {
               poster={item.poster_path}
               title={item.title || item.name}
               date={item.release_date || item.first_air_date}
-              media_type="Movie"
+              media_type={type ? "tv" : "movie"}
               vote_average={item.vote_average}
             />
           ))}
       </div>
-      {searchText &&
-        !content &&
+      {
+        searchText && !content &&
         (type ? (
           <h2 className="not-found">No TV Series found</h2>
         ) : (
           <h2 className="not-found">No Movies found</h2>
-        ))}
-      {numberOfPages > 1 && (
-        <CustomPagination setPage={setPage} numberOfPages={numberOfPages} />
-      )}
-    </div>
+        ))
+      }
+      {
+        numberOfPages > 1 && (
+          <CustomPagination setPage={setPage} numberOfPages={numberOfPages} />
+        )
+      }
+    </div >
   );
 };
 
