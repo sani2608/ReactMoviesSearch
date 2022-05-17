@@ -52,7 +52,7 @@ export default function SimpleBottomNavigation() {
                 icon={<Whatshot />} />
             <BottomNavigationAction
                 style={iconStyle}
-                label="Favourites"
+                label="Movies"
                 icon={<Movie />} />
             <BottomNavigationAction
                 style={iconStyle}
