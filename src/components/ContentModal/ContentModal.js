@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
@@ -9,6 +8,7 @@ import './ContentModal.css';
 import { makeStyles } from "@material-ui/core/styles";
 import { img_500, unavailable, unavailableLandscape } from '../../config/config';
 import { YouTube } from '@mui/icons-material';
+import Carousel from '../Carousel/Carousel';
 
 
 const API_KEY = process.env.REACT_APP_API_KEY;
@@ -56,10 +56,11 @@ export default function ContentModal({ children, media_type, id }) {
     useEffect(() => {
         fetchData();
         fetchVideo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <div >
+        <>
             <div onClick={handleOpen} className='media'>{children}</div>
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -103,7 +104,10 @@ export default function ContentModal({ children, media_type, id }) {
                                             content.overview
                                         }
                                     </span>
-                                    <div></div>
+                                    <div>
+
+                                        <Carousel media_type={media_type} id={id}/>
+                                    </div>
                                     <Button
                                         variant="contained"
                                         startIcon={<YouTube />}
@@ -120,6 +124,6 @@ export default function ContentModal({ children, media_type, id }) {
                     }
                 </Fade>
             </Modal>
-        </div>
+        </>
     );
 }
