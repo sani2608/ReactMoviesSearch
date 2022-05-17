@@ -49,7 +49,7 @@ const Movies = () => {
               poster={item.poster_path}
               title={item.title || item.name}
               date={item.release_date || item.first_air_date}
-              mdeia_type={item.media_type}
+              media_type="Movie"
               vote_average={item.vote_average}
             />
           ))}
